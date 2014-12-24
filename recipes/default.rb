@@ -8,7 +8,8 @@
 #
 
 remote_file "/opt/#{node['tomcat']['tomcat_version']}.tar.gz" do
-  source "#{node['tomcat']['tomcat_url']}"
+  source node['tomcat']['tomcat_url']
+  checksum node['tomcat']['checksum']
 end
 
 bash "extract_tomcat" do
@@ -23,7 +24,13 @@ end
 bash "create_the_tomcat_user" do
   user "root"
   code <<-EOH
-  adduser tomcat
+  getent passwd tomcat > /dev/null 2&>1
+  if [ $? == 0 ]; then
+    echo 'tomcat already exists'
+  else
+    adduser --disabled-password --gecos "" tomcat
+    echo -e "#{node['tomcat']['password']}\n#{node['tomcat']['password']}" | passwd tomcat
+  fi
   EOH
 end
 
