@@ -14,7 +14,7 @@ suites:
       - recipe[apt]
       - recipe[curl::default]
       - recipe[java::default]
-      #- recipe[tomcat::default]
+      - recipe[tomcat::default]
     attributes:
       java:
         install_flavor: 'oracle'
