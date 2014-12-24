@@ -2,10 +2,6 @@
 # Cookbook Name:: tomcat
 # Recipe:: default
 #
-# Copyright 2014, YOUR_COMPANY_NAME
-#
-# All rights reserved - Do Not Redistribute
-#
 
 remote_file "/opt/#{node['tomcat']['tomcat_version']}.tar.gz" do
   source node['tomcat']['tomcat_url']

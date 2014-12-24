@@ -1,68 +1,35 @@
-tomcat Cookbook
-===============
-TODO: Enter the cookbook description here.
+# Description
 
-e.g.
-This cookbook makes your favorite breakfast sandwich.
+Installs base Tomcat 8 and Java 8 for simple development purposes.
+  It is a pain figuring out how to install Tomcat 8 locally, it is
+  my hope that this enables more developers. Please do not use this
+  code for production. The tomcat user should not be set in the
+  /attributes/default.rb file, and instead should be installed in
+  an encrypted databag. Also, please change he default tomcat
+  password.
 
-Requirements
-------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
+# Requirements
 
-e.g.
-#### packages
-- `toaster` - tomcat needs toaster to brown your bagel.
+## Platform:
 
-Attributes
-----------
-TODO: List your cookbook attributes here.
+* Ubuntu
 
-e.g.
-#### tomcat::default
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['tomcat']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
+## Cookbooks:
 
-Usage
------
-#### tomcat::default
-TODO: Write usage instructions for each cookbook.
+* apt
+* curl
+* java
 
-e.g.
-Just include `tomcat` in your node's `run_list`:
+# Attributes:
 
-```json
-{
-  "name":"my_node",
-  "run_list": [
-    "recipe[tomcat]"
-  ]
-}
-```
+* `node['tomcat']['tomcat_version']` - Defaults to apache-tomcat-8.0.15.
+* `node['tomcat']['tomcat_url']` - Defaults to 'http://mirrors.gigenet.com/apache/tomcat/tomcat-8/v8.0.15/bin/apache-tomcat-8.0.15.tar.gz'.
+* `node['tomcat']['checksum']` - Defaults to  '2cc244070d01193c541e526564068e6f4e9ecade22380e38e681e931f3dc3699'.
+* `node['tomcat']['password']` Defaults to  '24pa$$42'.
 
-Contributing
-------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
+# Recipes
 
-e.g.
-1. Fork the repository on Github
-2. Create a named feature branch (like `add_component_x`)
-3. Write your change
-4. Write tests for your change (if applicable)
-5. Run the tests, ensuring they all pass
-6. Submit a Pull Request using Github
-
-License and Authors
--------------------
-Authors: TODO: List authors
+* recipe[apt] - updates the repos
+* recipe[curl::default] - installs curl
+* recipe[java::default] - installs java
+* recipe[tomcat::default] - installs tomcat
