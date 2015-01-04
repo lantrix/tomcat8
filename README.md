@@ -12,6 +12,7 @@ Installs base Tomcat 8 and Java 8 to have a tomcat server to deploy to.
 * cd into the directory where you downloaded this cookbook
 * `rvm gemset use tomcat_development --create`
 * `berks install`
+* `bundle`
 * `kitchen converge`
 * You now have a running Tomcat server to deploy to.
 
