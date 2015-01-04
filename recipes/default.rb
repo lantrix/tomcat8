@@ -1,17 +1,23 @@
 #
-# Cookbook Name:: tomcat
+# Cookbook Name:: tomcat_development
 # Recipe:: default
 #
 
-remote_file "/opt/#{node['tomcat']['tomcat_version']}.tar.gz" do
+user "tomcat" do
+  comment "apache tomcat system account"
+  shell node['tomcat']['shell']
+  password node['tomcat']['password']
+end
+
+remote_file "#{node['tomcat']['installation_directory']}/#{node['tomcat']['tomcat_version']}.tar.gz" do
   source node['tomcat']['tomcat_url']
   checksum node['tomcat']['checksum']
   owner 'tomcat'
 end
 
 bash "extract_tomcat" do
-  user "root"
-  cwd "#{node['tomcat']['installation_directory']}"
+  user 'root'
+  cwd node['tomcat']['installation_directory']
   code <<-EOH
   if [ -d "#{node['tomcat']['tomcat_version']}" ]; then
     echo 'The tomcat target directory has already been extracted'
@@ -21,15 +27,9 @@ bash "extract_tomcat" do
   EOH
 end
 
-user "tomcat" do
-  comment "apache tomcat system account"
-  shell "/bin/bash"
-  password '$1$FriiRKvW$rhegRwjAuhDdIcaXp6UC.1'
-end
-
 bash "change ownership of the extracted apache directory to tomcat" do
   user 'root'
-  cwd "#{node['tomcat']['installation_directory']}"
+  cwd node['tomcat']['installation_directory']
   code <<-EOH
   chown -R tomcat "#{node['tomcat']['tomcat_version']}"
   EOH
